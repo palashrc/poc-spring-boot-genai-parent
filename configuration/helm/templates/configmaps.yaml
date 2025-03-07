@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Values.appName }}-configmap"
+data:
+{{- $path := printf "%s/*" .Values.configDir }}
+{{ (.Files.Glob $path).AsConfig | nindent 2 }}

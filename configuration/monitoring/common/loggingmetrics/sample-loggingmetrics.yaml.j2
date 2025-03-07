@@ -1,0 +1,46 @@
+#jinja2: trim_blocks:False,block_start_string:'<%',block_end_string:'%>',variable_start_string:'<<',variable_end_string:'>>'
+---
+# Please be aware some facts about log-based metrics:
+# 1) it is legacy solution, use it only if for some reason you couldn't use Spring Boot Micrometer metrics
+# 2) to get the log-based metrics work, you have to write logs by gcp API for example see starters documentation:
+#    https://git.prod.sabre.com/projects/NGP-AR/repos/starters/browse/docs/src/main/asciidoc/starters.ad#_customization
+apiVersion: monitoring.cnrm.cloud.google.com/v1beta1
+kind: LoggingMetric
+metadata:
+  labels:
+    app: << app_name >>-<< project_name >>
+  name: property-deprecation-metric
+  namespace: << project_name >>
+spec:
+  name: << app_name >>-<< project_name >>-<<cluster_name>>-property_deprecation_warning
+  description: 'Deprecation warning count'
+  filter: resource.labels.pod_id=~"<< app_name >>.*"
+    resource.labels.cluster_name="<<cluster_name>>"
+    jsonPayload.message=~"Property*.*no longer supported."
+  disabled: false
+---
+apiVersion: monitoring.cnrm.cloud.google.com/v1beta1
+kind: LoggingMetric
+metadata:
+  labels:
+    app: << app_name >>-<< project_name >>
+  name: application-start-time
+  namespace: << project_name >>
+spec:
+  name: << app_name >>-<< project_name >>-<<cluster_name>>-application_start_time
+  description: 'Application start time'
+  filter: resource.labels.pod_id=~"<< app_name >>.*"
+    resource.labels.cluster_name="<<cluster_name>>"
+    jsonPayload.message=~"Started GenericSpringBootApplication in [0-9]{1,}(.*)"
+  valueExtractor: REGEXP_EXTRACT(jsonPayload.message, ".*\\D([0-9]+[.][0-9]+).*")
+  metricDescriptor:
+    description: Application << app_name >> start time
+    metricKind: DELTA
+    name: logging.googleapis.com/user/<< app_name >>-<< project_name >>-<<cluster_name>>-application_start_time
+    type: logging.googleapis.com/user/<< app_name >>-<< project_name >>-<<cluster_name>>-application_start_time
+    unit: 's'
+    valueType: DISTRIBUTION
+  bucketOptions:
+    explicitBuckets:
+      bounds: 1
+  disabled: false

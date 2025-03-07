@@ -1,0 +1,89 @@
+spring:
+  application:
+    name: poc-spring-boot-genai
+    version: 1.0.0-SNAPSHOT
+  profiles:
+    active: 'logs-stdout, local'
+    group:
+      my-local: local
+  lifecycle:
+    timeout-per-shutdown-phase: 1m
+  cloud:
+    gcp:
+      core:
+        enabled: true
+      datastore:
+        enabled: true
+        namespace: poc-spring-boot-genai-namespace
+        project-id: poc-spring-boot-genai-db
+        emulator:
+          enabled: true
+          namespace: poc-spring-boot-genai-namespace
+          project-id: poc-spring-boot-genai-db
+          port: 6081
+          data-dir: 'F:\Program-Files\Firestore-Emulator-Data-Dir'
+      active: logs-stdout-json-gke
+      grourp:
+        my-local: local
+  ai:
+    chat:
+      client:
+        enabled: false
+    ollama:
+      base-url: 'http://localhost:11434'
+      chat:
+        options:
+          model: 'llama3:2:1b:1b'
+      init:
+        pull-model-strategy: always
+        timeout: 10m
+        max-retries: 2
+      embedding:
+        enabled: true
+        options:
+          model: 'llama3:2:1b'
+    openai:
+      api-key: '${OPENAI_API_KEY}'
+      organization-id: '${OPENAI_ORG_ID}'
+      project-id: '${OPENAI_PROJECT_ID}'
+      chat:
+        options:
+          model: gpt-4o
+    vertex:
+      ai:
+        gemini:
+          projectId: '${GEMINI_PROJECT_ID}'
+          location: us-central1
+          chat:
+            options:
+              model: 'gemini-2:0-flash'
+        embedding:
+          project-id: '${GEMINI_EMBEDDING_PROJECT_ID}'
+          location: us-central1
+          text:
+            options:
+              model: text-multilingual-embedding-002
+server:
+  port: 5081
+  shutdown: graceful
+logging:
+  level:
+    root: INFO
+management:
+  server:
+    port: 7085
+  endpoints:
+    metrics:
+      enabled: true
+    web:
+      exposure:
+        include: 'health,metrics'
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      stackdriver:
+        enabled: true
+      prometheus:
+        enabled: false

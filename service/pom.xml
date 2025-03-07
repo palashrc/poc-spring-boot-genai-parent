@@ -53,7 +53,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>poc-spring-boot-genai</finalName>
+		<finalName>service</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<plugins>
 			<plugin>

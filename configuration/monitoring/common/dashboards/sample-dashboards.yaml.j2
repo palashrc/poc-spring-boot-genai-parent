@@ -1,0 +1,64 @@
+#jinja2: trim_blocks:False,block_start_string:'<%',block_end_string:'%>',variable_start_string:'<<',variable_end_string:'>>'
+---
+#! Additional dashboards examples: https://git.prod.sabre.com/projects/NGP-MS/repos/ngp-monitoring-gke-examples/browse/configuration/files/monitoring/common/dashboards
+apiVersion: monitoring.cnrm.cloud.google.com/v1beta1
+kind: MonitoringDashboard
+metadata:
+  labels:
+    app: << app_name >>
+  name: sample-dashboard
+  namespace: << project_name >>
+spec:
+  name: projects/<< gcp_ops_project_number >>/dashboards/<< app_name + '-' + project_name + '-' + cluster_name + '-01' >>
+  displayName: poc-sell-air Dashboard
+  gridLayout:
+    columns: 2
+    widgets:
+    - title: Memory Committed
+      xyChart:
+        dataSets:
+          timeSeriesQuery:
+            timeSeriesQueryLanguage: |
+              fetch k8s_container
+              | metric 'custom.googleapis.com/jvm/memory/committed'
+              | filter (resource.pod_name =~ 'gke-java-spring-boot-helm-.*')
+              | group_by 1m, [value_committed_mean: mean(value.committed)]
+              | every 1m
+              | group_by [metric.area, metric.id, resource.pod_name],[value_committed_mean_mean: mean(value_committed_mean)]
+        timeshiftDuration: 60s
+    - title: Memory Used
+      xyChart:
+        dataSets:
+          timeSeriesQuery:
+            timeSeriesQueryLanguage: |
+              fetch k8s_container
+              | metric 'custom.googleapis.com/jvm/memory/used'
+              | filter (resource.pod_name =~ 'gke-java-spring-boot-helm-.*')
+              | group_by 1m, [value_used_mean: mean(value.used)]
+              | every 1m
+              | group_by [metric.area, metric.id, resource.pod_name],[value_used_mean_aggregate: aggregate(value_used_mean)]
+        timeshiftDuration: 60s
+    - title: Requests by endpoint
+      xyChart:
+        dataSets:
+          timeSeriesQuery:
+            timeSeriesQueryLanguage: |
+              fetch k8s_container
+              | metric 'custom.googleapis.com/http/server/requests/count'
+              | filter (resource.pod_name =~ 'gke-java-spring-boot-helm-.*')
+              | group_by 1m, [value_count_aggregate: aggregate(value.count)]
+              | every 1m
+              | group_by [metric.status, metric.uri, metric.method],[value_count_aggregate_aggregate: aggregate(value_count_aggregate)]
+        timeshiftDuration: 60s
+    - title: Requests by pod
+      xyChart:
+        dataSets:
+          timeSeriesQuery:
+            timeSeriesQueryLanguage: |
+              fetch k8s_container
+              | metric 'custom.googleapis.com/http/server/requests/count'
+              | filter (resource.pod_name =~ 'gke-java-spring-boot-helm-.*')
+              | group_by 1m, [value_count_aggregate: aggregate(value.count)]
+              | every 1m
+              | group_by [resource.pod_name],[value_count_aggregate_aggregate: aggregate(value_count_aggregate)]
+        timeshiftDuration: 60s

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Values.appName }}-deployment"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "{{ .Values.appName }}-match"
+      deploymentconfig: "{{ .Values.appName }}-{{ .Values.color }}"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.appName }}-match"
+        deploymentconfig: "{{ .Values.appName }}-{{ .Values.color }}"
+    spec:
+      containers:
+        - env:
+            - name: SPRING_CONFIG_LOCATION
+              value: file:///config/application-gke-env.yaml
+            - name: JDK_JAVA_OPTIONS
+              value: "-Dloader.path=/config/,-Dspring.config.additional-location=/config/"
+          name: "{{ .Values.appName }}-container"
+          image: "{{ .Values.appName }}-image" #For local environment
+          #image: "gcr.io/sab-dev-storage-368015/{{ .Values.appName }}-image" #For higher environments
+          imagePullPolicy: "{{ .Values.imagePullPolicy }}"
+          ports:
+            - containerPort: 8081
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - name: "{{ .Values.appName }}-volume"
+              mountPath: /config
+              readOnly: true
+      volumes:
+        - name: "{{ .Values.appName }}-volume"
+          configMap:
+            name: "{{ .Values.appName }}-configmap"

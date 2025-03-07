@@ -1,0 +1,17 @@
+#jinja2: trim_blocks:False,block_start_string:'<%',block_end_string:'%>',variable_start_string:'<<',variable_end_string:'>>'
+---
+# Descriptor for Metric used in AlertPolicies
+# If AlertPolicy is deployed before used metric is registered, the MetricDescriptor must be declared
+apiVersion: monitoring.cnrm.cloud.google.com/v1beta1
+kind: MonitoringMetricDescriptor
+metadata:
+  labels:
+    app: << app_name >>
+  name: sample-descriptors
+  namespace: << project_name >>
+spec:
+  type: custom.googleapis.com/jvm/gc/pause/count
+  metricKind: GAUGE
+  valueType: INT64
+  labels:
+  - key: pod_name

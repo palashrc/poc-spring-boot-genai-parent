@@ -1,3 +1,4 @@
 FROM openjdk:17
-ADD target/poc-spring-boot-genai.jar poc-spring-boot-genai.jar
-ENTRYPOINT ["java", "-Dserver.port=8085", "-jar", "poc-spring-boot-genai.jar"]
+ADD service/target/service.jar /deployments/service.jar
+EXPOSE 5081 5081
+ENTRYPOINT ["java", "-jar", "/deployments/service.jar"]

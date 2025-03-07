@@ -1,0 +1,66 @@
+#jinja2: trim_blocks:False,block_start_string:'<%',block_end_string:'%>',variable_start_string:'<<',variable_end_string:'>>'
+---
+#! Additional alerts examples: https://git.prod.sabre.com/projects/NGP-MS/repos/ngp-monitoring-gke-examples/browse/configuration/files/monitoring/common/alertpolicies
+apiVersion: monitoring.cnrm.cloud.google.com/v1beta1
+kind: MonitoringAlertPolicy
+metadata:
+  labels:
+    app: << app_name >>
+  name: sample-alerts
+  namespace: << project_name >>
+spec:
+  notificationChannels: []
+  combiner: OR
+  conditions:
+  - displayName: Too many gc pause in 5 minutes
+    conditionMonitoringQueryLanguage:
+      duration: 300s
+      query: |-
+        fetch k8s_container
+          | metric 'custom.googleapis.com/jvm/gc/pause/count'
+          | filter (resource.pod_name =~ 'poc-sell-air-.*')
+          | align rate(1m)
+          | group_by [resource.pod_name], mean(value)
+          | cast_units '1/s'
+          | condition val() > 2 '1/s'
+      trigger:
+        count: 1
+  displayName: TooManyGcPause poc-sell-air
+  documentation:
+    # https://sabre.service-now.com/kb_view.do?sysparm_article=KB0033547#JSON
+    content: |
+      << alerts.documentation | combine({'severity': alerts.severity['warning']}) | to_json >>
+    mimeType: text/markdown
+  enabled: true
+---
+apiVersion: monitoring.cnrm.cloud.google.com/v1beta1
+kind: MonitoringAlertPolicy
+metadata:
+  labels:
+    app: << app_name >>
+  name: << app_name >>-<< project_name >>-application_start_time_alert
+  namespace: << project_name >>
+spec:
+  notificationChannels: []
+  combiner: OR
+  conditions:
+  - displayName: logging/user/<< app_name >>-<< project_name >>-<<cluster_name>>-application_start_time_alert [MEAN]
+    conditionMonitoringQueryLanguage:
+      duration: 60s
+      query: |-
+        fetch gke_container
+          | metric 'logging.googleapis.com/user/<< app_name >>-<< project_name >>-<<cluster_name>>-application_start_time'
+          | filter (resource.pod_id =~ 'poc-sell-air-.*')
+          | align delta(1m)
+          | every 1m
+          | group_by [],[value_application_start_time_mean: mean(value.application_start_time)]
+          | condition cast_units(val(), "") > 20
+      trigger:
+        count: 1
+  displayName: Theres were too slow << app_name >> application start occurrence in last 10 minutes
+  documentation:
+    # https://sabre.service-now.com/kb_view.do?sysparm_article=KB0033547#JSON
+    content: |
+      << alerts.documentation | combine({'severity': alerts.severity['minor']}) | to_json >>
+    mimeType: text/markdown
+  enabled: true
