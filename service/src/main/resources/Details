@@ -1,0 +1,26 @@
+#Test in local:
+http://localhost:8181/genai/ollama/v1
+http://localhost:8181/genai/ollama/v1/ping
+http://localhost:8181/genai/ollama/v1/text-to-text?prompt=
+http://localhost:8181/genai/ollama/v1/text-to-text/stream?prompt=
+http://localhost:8181/genai/ollama/v1/text-to-text/stream/rag?prompt=
+
+Texts with image:
+Describe this image.
+What object is this and describe how it might be used.
+Do you know what plant this is and how do I best take care of it.
+Extract the objects in the provided image and output them in a list in alphabetical order.
+I have these ingredients. Not sure what to cook for lunch. Show me a list of foods with the recipes.
+
+#Ollama Steps: Perform the steps below before start this Application:
+docker pull ollama/ollama //run it for once
+docker run -d -v ollama_data:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+
+#Docker commands:
+docker -v
+docker images
+docker ps -a
+docker stop
+docker rm <container-id>
+docker rmi <image-id>
+

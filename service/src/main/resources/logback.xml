@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration scan="true">
+
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+
+	<appender name="FILE-OUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.path}/poc-spring-boot-genai-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>1MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>[%thread] - %d %X %-5level %logger{36} - %msg%n%ex</Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="ASYNC-FILE-OUT" class="ch.qos.logback.classic.AsyncAppender">
+		<queueSize>2000</queueSize>
+		<discardingThreshold>0</discardingThreshold>
+		<appender-ref ref="FILE-OUT" />
+	</appender>
+
+	<appender name="SPRING-FILE-OUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.path}/Spring-Log-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>200MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>[%thread] - %d %X %-5level %logger{36} - %msg%n%ex</Pattern>
+		</encoder>
+	</appender> 
+	
+	<appender name="ASYNC-SPRING-FILE-OUT" class="ch.qos.logback.classic.AsyncAppender">
+		<queueSize>2000</queueSize>
+		<discardingThreshold>0</discardingThreshold>
+		<appender-ref ref="SPRING-FILE-OUT" />
+	</appender>
+
+	<root level="info">
+		<appender-ref ref="ASYNC-FILE-OUT" />
+		<appender-ref ref="ASYNC-SPRING-FILE-OUT" />
+	</root>
+
+</configuration>
