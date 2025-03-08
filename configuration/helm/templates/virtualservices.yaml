@@ -6,10 +6,10 @@ spec:
   hosts:
     - "*"
   gateways:
-    - "bookmymovie-istio-gateway"
+    - "{{ .Values.appName }}-istio-gateway"
   http:
     - route:
         - destination:
             host: "{{ .Values.appName }}-service"
             port:
-              number: 8081
+              number: 5081
