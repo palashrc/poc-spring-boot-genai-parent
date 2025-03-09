@@ -3,7 +3,6 @@ on:
   workflow_dispatch:
     branches:
       - master
-
 jobs:
   deploy-job:
     runs-on: ubuntu-latest
@@ -14,11 +13,11 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'temurin'
+          distribution: temurin
           cache: maven
       - name: Build with Maven
         run: mvn clean package -DskipTests=true
       - name: Print Current Directory
-        run: echo "${PWD}"
+        run: 'echo "${PWD}"'
       - name: Listing Elements
         run: echo "ls -ltr"
