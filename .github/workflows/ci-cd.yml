@@ -21,7 +21,7 @@ jobs:
         run: ls -ltr
       - name: Docker Image Build
         run: docker build . --file Dockerfile --tag gcr.io/sab-dev-storage-453204/poc-spring-boot-genai-image
-      - name: GCP Storage Project Login
+      - name: GCP Project Login
         uses: google-github-actions/setup-gcloud@v0.3.0
         with:
           service_account_key: ${{ secrets.GCR_SERVICE_ACCOUNT_KEY }}
@@ -31,4 +31,6 @@ jobs:
         run: |-
           gcloud auth configure-docker --quiet
       - name: Docker Image Push in GCR
-        run: docker push gcr.io/sab-dev-storage-453204/poc-spring-boot-genai-image
+        run: |-
+          docker tag poc-spring-boot-genai-image gcr.io/${{ env.PROJECT_ID }}/poc-spring-boot-genai-image 
+          docker push gcr.io/${{ env.PROJECT_ID }}/poc-spring-boot-genai-image
