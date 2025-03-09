@@ -22,7 +22,7 @@ spec:
               value: "-Dloader.path=/config/,-Dspring.config.additional-location=/config/"
           name: "{{ .Values.appName }}-container"
           image: "{{ .Values.appName }}-image" #For local environment
-          #image: "gcr.io/sab-dev-storage-368015/{{ .Values.appName }}-image" #For higher environments
+          #image: "gcr.io/sab-dev-storage-453204/{{ .Values.appName }}-image" #For higher environments
           imagePullPolicy: "{{ .Values.imagePullPolicy }}"
           ports:
             - containerPort: 5081
