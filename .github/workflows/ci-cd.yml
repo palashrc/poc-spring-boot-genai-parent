@@ -32,5 +32,5 @@ jobs:
           gcloud auth configure-docker --quiet
       - name: Docker Image Push in GCR
         run: |-
-          docker tag poc-spring-boot-genai-image gcr.io/${{ env.PROJECT_ID }}/poc-spring-boot-genai-image 
-          docker push gcr.io/${{ env.PROJECT_ID }}/poc-spring-boot-genai-image
+          docker tag poc-spring-boot-genai-image:latest gcr.io/${{ env.PROJECT_ID }}/poc-spring-boot-genai-image:latest 
+          docker push gcr.io/${{ env.PROJECT_ID }}/poc-spring-boot-genai-image:latest
