@@ -19,5 +19,3 @@ jobs:
         run: mvn clean package -DskipTests=true
       - name: Print Current Directory
         run: 'echo "${PWD}"'
-      - name: Listing Elements
-        run: echo "ls -ltr"
