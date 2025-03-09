@@ -30,4 +30,4 @@ jobs:
       - name: GCR Docker Authentication
         run: gcloud auth configure-docker --quiet
       - name: Docker Image Push in GCR
-        run: docker push gcr.io/${{ env.PROJECT_ID }}/poc-spring-boot-genai-image:latest
+        run: docker push gcr.io/sab-dev-storage-453204/poc-spring-boot-genai-image:latest
