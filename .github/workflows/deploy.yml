@@ -1,4 +1,4 @@
-name: Deploy
+name: CI/CD Pipeline
 on:
   push:
     branches:
@@ -10,7 +10,7 @@ on:
     branches:
       - master
 jobs:
-  deploy-job:
+  cicd-pipeline-job:
     runs-on: ubuntu-latest
     steps:
       - name: Code Checkout
