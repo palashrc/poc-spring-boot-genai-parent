@@ -21,8 +21,8 @@ spec:
             - name: JDK_JAVA_OPTIONS
               value: "-Dloader.path=/config/,-Dspring.config.additional-location=/config/"
           name: "{{ .Values.appName }}-container"
-          image: "{{ .Values.appName }}-image" #For local environment
-          #image: "gcr.io/sab-dev-storage-453204/{{ .Values.appName }}-image" #For higher environments
+          #image: "{{ .Values.appName }}-image" #For local environment
+          image: "us-central1-docker.pkg.dev/sab-dev-storage-453204/sab-dev-repo/{{ .Values.appName }}-image" #For higher environments
           imagePullPolicy: "{{ .Values.imagePullPolicy }}"
           ports:
             - containerPort: 5081

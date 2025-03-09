@@ -2,6 +2,6 @@
 appName: poc-spring-boot-genai
 configDir: env/envfolder/app-config
 color: green
-imagePullPolicy: Never #For local environment
-#imagePullPolicy: IfNotPresent #For higher environments
+#imagePullPolicy: Never #For local environment
+imagePullPolicy: IfNotPresent #For higher environments
 serviceType: ClusterIP
