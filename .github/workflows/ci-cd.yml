@@ -22,7 +22,7 @@ jobs:
       - name: List Current Directory
         run: ls -ltr
       - name: Docker Image Build
-        run: docker build . --file Dockerfile --tag "us-central1-docker.pkg.dev/sab-dev-storage-453204/sab-dev-repo/${{ env.APP_NAME }}-image"
+        run: docker build . --file Dockerfile --tag us-central1-docker.pkg.dev/sab-dev-storage-453204/sab-dev-repo/${{ env.APP_NAME }}-image
       - name: GCP Project Login
         uses: google-github-actions/auth@v1
         with:
@@ -36,6 +36,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: "us-central1-docker.pkg.dev/sab-dev-storage-453204/sab-dev-repo/${{ env.APP_NAME }}-image"
+          tags: us-central1-docker.pkg.dev/sab-dev-storage-453204/sab-dev-repo/${{ env.APP_NAME }}-image
       - name: Helm Installation Check
         run: helm version
