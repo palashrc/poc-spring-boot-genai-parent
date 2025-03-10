@@ -15,8 +15,7 @@ jobs:
         run: echo "$(pwd)"
       - name: Listing Directory Items
         run: ls -ltr
-      - name: Change Directory
-        run: '/usr/bin/cd configuration'
+      - run: cd configuration
       - name: Listing Directory Items Now
         run: ls -ltr
       - name: Helm Installation Check
