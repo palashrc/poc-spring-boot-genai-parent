@@ -54,3 +54,5 @@ jobs:
         run: echo /home/runner/work/${{ env.APP_NAME }}-parent/${{ env.APP_NAME }}-parent/configuration/helm
       - name: Helm Init
         run: helm lint /home/runner/work/${{ env.APP_NAME }}-parent/${{ env.APP_NAME }}-parent/configuration/helm
+      - name: Helm Dry Execution
+        run: helm install --set configDir=env/GCP-Dev/app-config ${{ env.APP_NAME }}-helm --namespace ${{ env.APP_NAME }}-namespace /home/runner/work/${{ env.APP_NAME }}-parent/${{ env.APP_NAME }}-parent/configuration/helm --dry-run
