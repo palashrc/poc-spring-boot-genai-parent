@@ -11,5 +11,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Date Print
         run: echo "$(date)"
+      - name: Present Directory Print
+        run: echo "$(pwd)"
+      - name: Listing Directory Items
+        run: ls -ltr
       - name: Helm Installation Check
         run: helm version
