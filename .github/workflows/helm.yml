@@ -15,5 +15,9 @@ jobs:
         run: echo "$(pwd)"
       - name: Listing Directory Items
         run: ls -ltr
+      - name: Change Directory
+        run: cd configuration/helm
+      - name: Present Directory Print
+        run: echo "$(pwd)"
       - name: Helm Installation Check
         run: helm version
