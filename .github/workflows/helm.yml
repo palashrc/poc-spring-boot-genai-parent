@@ -16,10 +16,10 @@ jobs:
       - name: Listing Directory Items
         run: ls -ltr
       - name: Helm Directory
-        run: echo /home/runner/work/$APP_NAME-parent/$APP_NAME-parent/configuration/helm
+        run: echo /home/runner/work/${{ env.APP_NAME }}-parent/${{ env.APP_NAME }}-parent/configuration/helm
       - name: Helm Version Check
         run: helm version
       - name: Helm Init
-        run: helm lint /home/runner/work/$APP_NAME-parent/$APP_NAME-parent/configuration/helm
+        run: helm lint /home/runner/work/${{ env.APP_NAME }}-parent/${{ env.APP_NAME }}-parent/configuration/helm
       #- name: Helm Application Installation
       #  run: helm install --set configDir=env/GCP-Dev/app-config $APP_NAME-helm --namespace $APP_NAME-namespace /home/runner/work/$APP_NAME-parent/$APP_NAME-parent/configuration/helm --dry-run
