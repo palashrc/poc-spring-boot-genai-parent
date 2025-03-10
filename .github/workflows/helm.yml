@@ -4,7 +4,8 @@ on:
     branches:
       - master
 env:
-  HELM_DIR: /home/runner/work/poc-spring-boot-genai-parent/poc-spring-boot-genai-parent/configuration/helm
+  APP_NAME: poc-spring-boot-genai-parent
+  HELM_DIR: /home/runner/work/$APP_NAME/$APP_NAME/configuration/helm
 jobs:
   pipeline-job:
     runs-on: ubuntu-latest
