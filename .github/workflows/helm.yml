@@ -6,6 +6,7 @@ on:
 jobs:
   pipeline-job:
     runs-on: ubuntu-latest
+    steps:
       - name: Helm Availability Check
         run: echo helm version
       - name: Helm Installation
