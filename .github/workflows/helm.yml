@@ -16,7 +16,7 @@ jobs:
       - name: Listing Directory Items
         run: ls -ltr
       - name: Change Directory
-        run: cd "$(dirname ${0})"
+        run: 'cd configuration'
       - name: Listing Directory Items Now
         run: ls -ltr
       - name: Helm Installation Check
