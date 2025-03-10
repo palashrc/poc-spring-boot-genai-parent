@@ -1,0 +1,12 @@
+name: Helm Pipeline
+on:
+  workflow_dispatch:
+    branches:
+      - master
+jobs:
+  pipeline-job:
+    runs-on: ubuntu-latest
+      - name: Helm Installation
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+          echo helm version
