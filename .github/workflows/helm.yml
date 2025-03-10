@@ -4,7 +4,7 @@ on:
     branches:
       - master
 env:
-  APP_NAME: poc-spring-boot-genai-parent
+  APP_NAME: poc-spring-boot-genai
 jobs:
   pipeline-job:
     runs-on: ubuntu-latest
@@ -16,10 +16,10 @@ jobs:
       - name: Listing Directory Items
         run: ls -ltr
       - name: Helm Directory
-        run: echo /home/runner/work/$APP_NAME/$APP_NAME/configuration/helm
-      - name: Helm Installation Check
+        run: echo /home/runner/work/$APP_NAME-parent/$APP_NAME-parent/configuration/helm
+      - name: Helm Version Check
         run: helm version
       - name: Helm Init
-        run: helm lint /home/runner/work/$APP_NAME/$APP_NAME/configuration/helm
+        run: helm lint /home/runner/work/$APP_NAME-parent/$APP_NAME-parent/configuration/helm
       #- name: Helm Application Installation
-      #  run: helm install --set configDir=env/GCP-Dev/app-config poc-spring-boot-genai-parent-helm --namespace poc-spring-boot-genai-parent-namespace /home/runner/work/poc-spring-boot-genai-parent/poc-spring-boot-genai-parent/configuration/helm --dry-run
+      #  run: helm install --set configDir=env/GCP-Dev/app-config $APP_NAME-helm --namespace $APP_NAME-namespace /home/runner/work/$APP_NAME-parent/$APP_NAME-parent/configuration/helm --dry-run
