@@ -20,3 +20,5 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: mvn clean package -DskipTests=true
+      - name: my-step
+        run: echo "Job Completed!"
