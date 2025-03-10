@@ -9,8 +9,5 @@ jobs:
     steps:
       - name: Helm Availability Check
         run: helm version
-      - name: Helm Installation
-        run: -|
-          wget https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz
-          tar -xv  helm-v3.12.0-linux-amd64.tar.gz
-          helm version
+      - name: Helm Plugins Check
+        run: helm plugin list
