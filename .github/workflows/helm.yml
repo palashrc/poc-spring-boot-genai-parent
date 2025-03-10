@@ -9,17 +9,13 @@ jobs:
     steps:
       - name: Code Checkout
         uses: actions/checkout@v4
-      - name: Date Print
-        run: echo "$(date)"
       - name: Present Directory Print
         run: echo "$(pwd)"
       - name: Listing Directory Items
         run: ls -ltr
-      - run:
-        working-directory: configuration
-      - name: Present Directory Print Now
-        run: echo "$(pwd)"
-      - name: Listing Directory Items Now
-        run: ls -ltr
       - name: Helm Installation Check
         run: helm version
+      - name: Helm Init
+        run: helm lint /home/runner/work/poc-spring-boot-genai-parent/poc-spring-boot-genai-parent/configuration/helm
+      - name: Helm Application Installation
+        run: helm install --set configDir=env/GCP-Dev/app-config poc-spring-boot-genai-parent-helm --namespace poc-spring-boot-genai-parent-namespace /home/runner/work/poc-spring-boot-genai-parent/poc-spring-boot-genai-parent/configuration/helm --dry-run
