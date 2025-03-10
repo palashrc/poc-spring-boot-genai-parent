@@ -35,7 +35,5 @@ jobs:
           context: .
           push: true
           tags: us-central1-docker.pkg.dev/sab-dev-storage-453204/sab-dev-repo/poc-spring-boot-genai-image
-      - name: Helm Installation
-        run: |
-          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-          helm version
+      - name: Helm Installation Check
+        run: helm version
